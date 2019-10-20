@@ -1,0 +1,16 @@
+Erstelle mit Docker-compose eine verteilte Anwendung!
+
+1.) erstelle die python files (consumer & producer)
+2.) erstelle die mariadb file
+    nutze COPY docker.sql /docker-entrypoint-initdb.d/
+3.) erstelle die docker compose file
+    erstelle ein netzwerk um alle zu kombinieren
+    baue alle services von 
+
+starte die services und verifiziere dass die daten in der mariadb gelandet sind!
+
+
+Beantworte die Frage:
+    Nachteile von docker-compose?
+    Vorteile von docker-compose?
+    
