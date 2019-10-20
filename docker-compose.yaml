@@ -1,0 +1,41 @@
+version: '3'
+
+networks:
+  system:
+
+services:
+  rabbit:
+    image: "rabbitmq:3-management"
+    ports:
+      - "15678:15672"
+    networks:
+      - system
+
+  database:
+    build:
+      context: "."
+      dockerfile: "mariadb.Dockerfile"
+    networks:
+      - system
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+
+  consume:
+    build:
+      context: "."
+      dockerfile: "py-c.Dockerfile"
+    networks:
+      - system
+    depends_on: 
+      - rabbit
+      - database
+
+  produce:
+    build:
+      context: "."
+      dockerfile: "py-p.Dockerfile"
+    networks:
+      - system
+    depends_on: 
+      - rabbit
+      - database
