@@ -23,9 +23,11 @@ while count < 5 and no_exit:
 channel = conn.channel()
 def consume(ch, meth, props, body):
     print(body.decode())
-    con = mariadb.connect(user="root", password="root", database="docker_teach")
+    con = mariadb.connect(host="database", user="root", password="root", database="docker_teach")
     cursor = con.cursor()
-    cursor.execute(f"INSERT INTO messages VALUES (DEFAULT, {body.decode()});")
+    result = body.decode()
+    sql = f"INSERT INTO messages VALUES (DEFAULT, '{result}');"
+    cursor.execute(sql)
     ch.basic_ack(delivery_tag=meth.delivery_tag)
 
 

@@ -29,6 +29,9 @@ services:
     depends_on: 
       - rabbit
       - database
+    entrypoint: 
+      - python3
+      - /app/consume.py
 
   produce:
     build:
@@ -37,5 +40,8 @@ services:
     networks:
       - system
     depends_on: 
-      - rabbit
       - database
+      - rabbit
+    entrypoint: 
+      - python
+      - /app/produce.py

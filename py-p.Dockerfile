@@ -4,6 +4,5 @@ RUN pip install pika
 
 WORKDIR /app
 
-COPY produce.py /app
-
-CMD ["python", "/app/produce.py"]
+COPY produce.py .
+RUN chmod +x produce.py
