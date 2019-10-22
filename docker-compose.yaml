@@ -4,12 +4,16 @@ networks:
   system:
 
 services:
-  rabbit:
-    image: "rabbitmq:3-management"
+  bunny:
+    build:
+      context: '.'
+      dockerfile: "bunny.Dockerfile"
     ports:
       - "15678:15672"
     networks:
       - system
+    hostname: bunny1
+
 
   database:
     build:
@@ -27,11 +31,8 @@ services:
     networks:
       - system
     depends_on: 
-      - rabbit
+      - bunny
       - database
-    entrypoint: 
-      - python3
-      - /app/consume.py
 
   produce:
     build:
@@ -41,7 +42,4 @@ services:
       - system
     depends_on: 
       - database
-      - rabbit
-    entrypoint: 
-      - python
-      - /app/produce.py
+      - bunny

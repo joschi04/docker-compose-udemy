@@ -6,3 +6,5 @@ RUN pip install mysql-connector-python
 WORKDIR /app
 
 COPY consume.py .
+
+CMD [ "python", "/app/consume.py" ]

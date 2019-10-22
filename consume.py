@@ -2,22 +2,18 @@ import pika
 import time as t
 import mysql.connector as mariadb
 
-print("started the produce service")
+print("started the consume service")
 
-count = 0
 conn = ""
-no_exit = True
-while count < 5 and no_exit:
-    try:
-        creds = pika.PlainCredentials("guest", "guest")
-        params = pika.ConnectionParameters(credentials=creds, host='rabbit')
-        conn = pika.BlockingConnection(parameters=params)
-        no_exit = False
-        count = 10
-    except:
-        count+=1
-        t.sleep(15000)
-        print(f"tried to connect: {count}")
+try:
+    creds = pika.PlainCredentials("user", "user")
+    params = pika.ConnectionParameters(credentials=creds, host='bunny', connection_attempts=25, retry_delay=10)
+    conn = pika.BlockingConnection(parameters=params)
+    no_exit = False
+    count = 10
+except:
+    print("failed to connect")
+    exit()
 
 
 channel = conn.channel()
@@ -31,7 +27,7 @@ def consume(ch, meth, props, body):
     ch.basic_ack(delivery_tag=meth.delivery_tag)
 
 
-channel.queue_declare(queue="py-queue", durable=True)
+channel.queue_declare(queue="py-queue")
 channel.queue_bind(exchange="amq.direct", queue="py-queue")
 channel.basic_consume(queue="py-queue",on_message_callback=consume)
 channel.start_consuming()

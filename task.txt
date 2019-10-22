@@ -9,6 +9,19 @@ Erstelle mit Docker-compose eine verteilte Anwendung!
 
 starte die services und verifiziere dass die daten in der mariadb gelandet sind!
 
+Hinweise
+rabbitmq
+    Dockerfile
+        --> führe bunny.sh als executable aus
+    docker-compose:
+        15672:15672
+    hostname setzen: 
+        bunny1
+
+python
+    pip install <paket-name>
+
+
 
 Beantworte die Frage:
     Nachteile von docker-compose?

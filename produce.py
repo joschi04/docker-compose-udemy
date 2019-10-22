@@ -1,29 +1,23 @@
 import pika
 import time as t
 
-print("started the produce service")
-conn = ""
-count = 0
-no_exit = True
-while count < 15:
-    try:
-        creds = pika.PlainCredentials("guest", "guest")
-        params = pika.ConnectionParameters(credentials=creds)
-        conn = pika.BlockingConnection(parameters=params)
-        no_exit = False
-        count = 10
-    except Exception as e:
-        count+=1
-        print(f"tried to connect: {count}")
-        print(e)
-        t.sleep(1500)
+try:
+    print("try connect")
+    creds = pika.PlainCredentials("user", "user")
+    params = pika.ConnectionParameters(credentials=creds, host='bunny', connection_attempts=25, retry_delay=10)
+    conn = pika.BlockingConnection(parameters=params)
+    print("connect")
+except Exception as e:
+    print(e)
 
 channel = conn.channel()
-channel.queue_declare(queue="py-queue", durable=True)
+channel.queue_declare(queue="py-queue")
 channel.queue_bind(exchange="amq.direct", queue="py-queue")
 
-print("do publish")
-channel.basic_publish(exchange="", routing_key="py-queue", body="hello compose".encode())
+while (True):
+    print("do publish")
+    channel.basic_publish(exchange="", routing_key="py-queue", body="hello compose".encode())
+    t.sleep(5)
 
 channel.close()
 
