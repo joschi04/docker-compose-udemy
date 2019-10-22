@@ -17,10 +17,11 @@ while count < 5 and no_exit:
         t.sleep(15000)
         print(f"tried to connect: {count}")
 
+queue = 'py-queue'
 channel = conn.channel()
-channel.queue_declare(queue="py-queue", durable=True)
-channel.queue_bind(exchange="amq.direct", queue="py-queue")
-channel.basic_publish(exchange="", routing_key="py-queue", body="hello compose".encode())
+channel.queue_declare(queue=queue, durable=True)
+channel.queue_bind(exchange="amq.direct", queue=queue)
+channel.basic_publish(exchange="", routing_key=queue, body="hello compose".encode())
 
 
 

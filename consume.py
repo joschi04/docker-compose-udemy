@@ -28,8 +28,8 @@ def consume(ch, meth, props, body):
     cursor.execute(f"INSERT INTO messages VALUES (DEFAULT, {body.decode()});")
     ch.basic_ack(delivery_tag=meth.delivery_tag)
 
-
-channel.queue_declare(queue="py-queue", durable=True)
-channel.queue_bind(exchange="amq.direct", queue="py-queue")
-channel.basic_consume(queue="py-queue",on_message_callback=consume)
+queue = 'py-queue'
+channel.queue_declare(queue=queue, durable=True)
+channel.queue_bind(exchange="amq.direct", queue=queue)
+channel.basic_consume(queue=queue,on_message_callback=consume)
 channel.start_consuming()

@@ -1,16 +1,21 @@
 Erstelle mit Docker-compose eine verteilte Anwendung!
 
 1.) erstelle die python files (consumer & producer)
+    installiere pika
+
 2.) erstelle die mariadb file
-    nutze COPY docker.sql /docker-entrypoint-initdb.d/
-3.) erstelle die docker compose file
+3.) erstelle die docker compose file:
     erstelle ein netzwerk um alle zu kombinieren
-    baue alle services von 
+    für rabbitmq expose port 15672, nutze depends_on für die python files
+
+    baue alle services mit docker-compose up
+
+connect zu http://localhost:15672 
+    schaue dir die gesendeten nachrichten an
 
 starte die services und verifiziere dass die daten in der mariadb gelandet sind!
 
-
-Beantworte die Frage:
+Beantworte die Fragen:
     Nachteile von docker-compose?
     Vorteile von docker-compose?
     
