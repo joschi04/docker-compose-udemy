@@ -21,6 +21,8 @@ rabbitmq
 python
     pip install <paket-name>
 
+mariadb:
+    /docker-entrypoint-initdb-d/
 
 
 Beantworte die Fragen:
