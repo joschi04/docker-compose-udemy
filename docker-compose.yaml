@@ -2,6 +2,9 @@ version: '3'
 
 networks:
   system:
+  
+volumes:
+  mariadb:
 
 services:
   bunny:
@@ -14,8 +17,7 @@ services:
       - system
     hostname: bunny1
 
-
-  database:
+  maria:
     build:
       context: "."
       dockerfile: "mariadb.Dockerfile"
@@ -23,8 +25,10 @@ services:
       - system
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
+    volumes:
+      - mariadb:/var/lib/mysql
 
-  consume:
+  py-c:
     build:
       context: "."
       dockerfile: "py-c.Dockerfile"
@@ -32,14 +36,14 @@ services:
       - system
     depends_on: 
       - bunny
-      - database
+      - maria
 
-  produce:
+  py-p:
     build:
       context: "."
       dockerfile: "py-p.Dockerfile"
     networks:
       - system
     depends_on: 
-      - database
+      - maria
       - bunny
