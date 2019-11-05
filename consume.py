@@ -16,11 +16,12 @@ except:
 channel = conn.channel()
 def consume(ch, meth, props, body):
     print(body.decode())
-    con = mariadb.connect(host="database", user="root", password="root", database="docker_teach")
+    con = mariadb.connect(host="maria", user="root", password="root", database="docker_teach")
     cursor = con.cursor()
     result = body.decode()
     sql = f"INSERT INTO messages VALUES (DEFAULT, '{result}');"
     cursor.execute(sql)
+    con.commit()
     ch.basic_ack(delivery_tag=meth.delivery_tag)
 
 
