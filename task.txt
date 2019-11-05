@@ -19,8 +19,15 @@ rabbitmq
         bunny1
 
 python
-    pip install <paket-name>
+    pip install <pakacke-name>
+    produce
+        pika
+    consume
+       pika
+       mysql-connector-python
 
+mariadb:
+    /docker-entrypoint-initdb.d/
 
 
 Beantworte die Fragen:
