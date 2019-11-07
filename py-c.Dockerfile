@@ -6,4 +6,4 @@ WORKDIR /app
 
 COPY consume.py .
 
-CMD [ "python", "-u", "/app/consume.py" ]
+CMD ["python", "-u", "/app/consume.py"]

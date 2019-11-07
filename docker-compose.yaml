@@ -1,8 +1,8 @@
 version: '3'
 
 networks:
-  system:
-  
+  compose-net:
+
 volumes:
   mariadb:
 
@@ -12,38 +12,38 @@ services:
       context: '.'
       dockerfile: "bunny.Dockerfile"
     ports:
-      - "15678:15672"
+      - "15673:15672"
     networks:
-      - system
+      - compose-net
     hostname: bunny1
-
+  
   maria:
     build:
-      context: "."
+      context: '.'
       dockerfile: "mariadb.Dockerfile"
     networks:
-      - system
+      - compose-net
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
     volumes:
       - mariadb:/var/lib/mysql
-
+  
   py-c:
     build:
-      context: "."
+      context: '.'
       dockerfile: "py-c.Dockerfile"
     networks:
-      - system
-    depends_on: 
+      - compose-net
+    depends_on:
       - bunny
       - maria
-
+  
   py-p:
     build:
-      context: "."
+      context: '.'
       dockerfile: "py-p.Dockerfile"
     networks:
-      - system
-    depends_on: 
+      - compose-net
+    depends_on:
       - maria
       - bunny

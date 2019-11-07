@@ -1,0 +1,26 @@
+führe folgende Schritte manuell auf der Konsole in diesem directory aus:
+
+docker network create compose-net
+
+docker image build -t bunny-compose:v1 -f bunny.Dockerfile .
+docker container run -d --name bunny --hostname=bunny1 --network=compose-net  -p 15672:15672 -p 5672:5672 bunny-compose:v1
+
+docker image build -t maria-compose:v1 -f mariadb.Dockerfile .
+docker container run -d --name maria --network=compose-net  -p 3306:3306 maria-compose:v1
+
+docker image build -t py-c:v1 -f py-c.Dockerfile .
+docker container run -d --name pyconsume --network==compose-net py-c:v1
+
+docker image build -t py-p:v1 -f py-c.Dockerfile .
+docker container run -d --name pyconsume --network==compose-net py-c:v1
+
+docker image build -t py-p:v1 -f py-c.Dockerfile .
+docker container run -d --name pyconsume --network==compose-net py-c:v1
+
+# check queues:
+docker container exec -it bunny rabbitmqctl list_queues
+# check maria db:
+docker container exec -it maria mysql -uroot --password=root 
+# inside mysql cli
+MariaDB [None]> use docker_teach;
+MariaDB [docker_teach]> select * from messages;

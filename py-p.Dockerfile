@@ -7,4 +7,4 @@ WORKDIR /app
 COPY produce.py .
 RUN chmod +x produce.py
 
-CMD ["python", "/app/produce.py"]
+CMD [ "python", "/app/produce.py"]
