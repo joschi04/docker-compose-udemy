@@ -1,0 +1,35 @@
+Create with a distributed system with docker-compose!
+
+1.) Create the Dockerfiles for the python scripts (consumer & producer)
+2.) Create the RabbitMQ Dockerfile
+2.) Create the MariaDb Dockerfile
+3.) Create the docker-compose file:
+    Create a network for all services
+    build all services with docker-compose build and docker-compose up
+    Verify the data in the mariadb
+    and that rabbitmq is working properly (http://localhost:15672) --> make sure to publish this port at least
+
+Hints
+rabbitmq
+    Dockerfile
+        --> execute the bunny.sh as the entrypoint
+    docker-compose:
+        you want to expose 15672:15672 and 5672:5672
+    hostname needs to be (required by the applications structure): 
+        bunny1
+
+python
+    pip install <pakacke-name>
+    produce
+        pika
+    consume
+       pika
+       mysql-connector-python
+
+mariadb:
+    /docker-entrypoint-initdb.d/
+
+If any questions arise, feel free to ask anytime!
+
+Good Luck!
+    
