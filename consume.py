@@ -15,14 +15,19 @@ except:
 
 channel = conn.channel()
 def consume(ch, meth, props, body):
-    print(body.decode())
-    con = mariadb.connect(host="maria", user="root", password="root", database="docker_teach")
-    cursor = con.cursor()
-    result = body.decode()
-    sql = f"INSERT INTO messages VALUES (DEFAULT, '{result}');"
-    cursor.execute(sql)
-    con.commit()
-    ch.basic_ack(delivery_tag=meth.delivery_tag)
+    try:
+        print(body.decode())
+        con = mariadb.connect(host="maria", user="root", password="root", database="docker_teach")
+        cursor = con.cursor()
+        result = body.decode()
+        sql = f"INSERT INTO messages VALUES (DEFAULT, '{result}');"
+        cursor.execute(sql)
+        con.commit()
+        con.close()
+        ch.basic_ack(delivery_tag=meth.delivery_tag)
+    except BaseException as error:
+        print('An exception occurred: {}'.format(error))
+        raise error
 
 
 channel.queue_declare(queue="py-queue")

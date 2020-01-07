@@ -1,0 +1,49 @@
+version: '3.0'
+
+networks:
+  backend:
+
+services: 
+  maria:
+    build:
+      context: .
+      dockerfile: mariadb.Dockerfile
+    ports:
+      - '3306:3306'
+    networks:
+      - backend
+
+  bunny:
+    build:
+        context: .
+        dockerfile: bunny.Dockerfile
+    hostname: "bunny1"
+    ports:
+      - '15672:15672' # Managementport
+      - '5672:5672' # Default
+    networks:
+      - backend
+  
+  consumer:
+    build:
+        context: .
+        dockerfile: py-c.Dockerfile
+    networks:
+        - backend
+    depends_on:
+        - 'bunny'
+
+  producer:
+    build:
+        context: .
+        dockerfile: py-p.Dockerfile
+    networks:
+        - backend
+    depends_on:
+        - 'consumer'
+        - 'maria'
+        - 'bunny'
+
+
+
+      
